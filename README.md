@@ -12,10 +12,16 @@ This app used for talk with others so you can send/recieve messages but you shou
 + ##### Recycler View
 
 ## **Images**
-![splash](https://github.com/user-attachments/assets/f1a9b5c5-c82e-46b9-89ab-0824d26a0693)
-![SIGN IN](https://github.com/user-attachments/assets/dd0fcd1f-5421-4beb-982e-725c86b18fd0)
-![SIGN UP - PERSONAL](https://github.com/user-attachments/assets/b74d44a7-dfd0-4b50-8922-7a0edb468710)
-![Home](https://github.com/user-attachments/assets/cf0fd2f7-e9ea-44b1-a87c-470734cacd86)
-![Home2](https://github.com/user-attachments/assets/ff57ca82-120a-40a7-b708-7382543fa630)
-![Create Room](https://github.com/user-attachments/assets/ab8e3770-fe65-499b-a653-b320f3fb47a9)
-![Room – 1](https://github.com/user-attachments/assets/16353641-0116-4275-9a2a-0c7945e44be6)
+
+![splash](https://github.com/user-attachments/assets/d26eefb2-7ca2-46aa-923c-b9383dcf79ea)
+![SIGN IN](https://github.com/user-attachments/assets/1a59caef-6a8f-4be8-89be-dd907df5c437)
+![SIGN UP - PERSONAL](https://github.com/user-attachments/assets/b28fdd0a-9d3e-4128-81f6-ff7c2edb3834)
+![Home](https://github.com/user-attachments/assets/6f0e88bd-df2a-4a1b-b291-162062422f5d)
+![Home2](https://github.com/user-attachments/assets/60b19a57-6848-4d3d-85a1-58f62a997d14)
+![Create Room](https://github.com/user-attachments/assets/6a0d2543-7a45-4947-912a-98f20bb3072e)
+![Room – 1](https://github.com/user-attachments/assets/65ca8993-4915-45e0-8b3c-2ef5270ed5f8)
+
+
+
+
+
