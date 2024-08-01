@@ -1,26 +1,50 @@
 package com.example.chatapp.ui.home
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.get
 import com.example.chatapp.R
 import com.example.chatapp.databinding.ActivityHomeBinding
 import com.example.chatapp.base.BaseActivity
+import com.example.chatapp.database.models.Room
 import com.example.chatapp.ui.addRoom.AddRoomActivity
-import com.example.chatapp.ui.constants.UserProvider
-import com.example.chatapp.ui.register.RegisterActivity
+import com.example.chatapp.ui.chat.ChatActivity
 
 class HomeActivity : BaseActivity<ActivityHomeBinding, HomeViewModel>(),HomeNavigator {
+    lateinit var adapter: RoomAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 //        binding.user = UserProvider.user
 //        Log.e("user",binding.user?.uEmail.toString())
         binding.vm = viewModel
         binding.base = viewModel
-        viewModel.navigator=this
+        viewModel.navigator = this
+        initailizeAdapter()
+        subscribeToLiveData()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        viewModel.getAllRooms()
+    }
+
+    fun initailizeAdapter(){
+        adapter = RoomAdapter(null)
+        binding.content.roomRecycler.adapter = adapter
+        adapter.onItemClickListener = object: RoomAdapter.OnItemClickListener{
+            override fun onItemClick(postion: Int, item: Room) {
+                val intent = Intent(this@HomeActivity, ChatActivity::class.java)
+                intent.putExtra("ROOM", item)
+                startActivity(intent)
+            }
+
+        }
+    }
+
+    fun subscribeToLiveData(){
+        viewModel.roomsList.observe(this){
+            adapter.changeData(it)
+        }
     }
 
     override fun getLayoutID(): Int {

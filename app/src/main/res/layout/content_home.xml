@@ -17,7 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/trans"
-        android:padding="16dp"
+        android:padding="8dp"
         >
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/room_recycler"
@@ -26,6 +26,7 @@
             app:spanCount="2"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintTop_toTopOf="parent"
+            tools:listitem="@layout/item_room"
             />
 
 
