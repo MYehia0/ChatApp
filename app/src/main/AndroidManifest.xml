@@ -6,11 +6,20 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/logo"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.ChatApp"
         tools:targetApi="31">
+        <activity
+            android:name=".ui.chat.ChatActivity"
+            android:exported="false" />
+        <activity
+            android:name=".FullscreenActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:exported="false"
+            android:label="@string/title_activity_fullscreen"
+            android:theme="@style/Theme.ChatApp.Fullscreen" />
         <activity
             android:name=".ui.addRoom.AddRoomActivity"
             android:exported="false" />

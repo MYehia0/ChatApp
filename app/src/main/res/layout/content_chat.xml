@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="@layout/activity_chat"
+    tools:context=".ui.chat.ChatActivity"
+    >
+
+    <data>
+        <variable
+            name="vm"
+            type="com.example.chatapp.ui.chat.ChatViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="40dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        >
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_margin="15dp"
+            android:layout_gravity="bottom"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="25dp"
+            app:cardElevation="5dp">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/trans">
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_messages"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/item_message"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toTopOf="@id/layout_send_messages"
+                    />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/gray"
+                    app:layout_constraintBottom_toTopOf="@id/layout_send_messages"/>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layout_send_messages"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/trans"
+                    android:padding="12dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    >
+                    <EditText
+                        android:id="@+id/edit_message"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:padding="10dp"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/btn_send"
+                        android:background="@drawable/edit_message_background"
+                        android:hint="Send s message"
+                        android:text="@={vm.messageField}"
+                        android:maxLines="5"
+                        />
+
+                    <ImageButton
+                        android:id="@+id/btn_send"
+                        android:layout_width="45dp"
+                        android:layout_height="match_parent"
+                        android:adjustViewBounds="true"
+                        android:layout_marginStart="10dp"
+                        android:background="@drawable/send_message_background"
+                        android:onClick="@{() -> vm.sendMessage()}"
+                        android:src="@drawable/send"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/edit_message"
+                        tools:ignore="TouchTargetSizeCheck" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
