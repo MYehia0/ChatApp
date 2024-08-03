@@ -1,17 +1,16 @@
 package com.example.chatapp.ui.login
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.activity.viewModels
-import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.example.chatapp.R
 import com.example.chatapp.databinding.ActivityLoginBinding
-import com.example.chatapp.base.BaseActivity
+import com.example.chatapp.ui.base.BaseActivity
 import com.example.chatapp.ui.home.HomeActivity
 import com.example.chatapp.ui.register.RegisterActivity
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>(),LoginNavigator {
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -1,12 +1,19 @@
 package com.example.chatapp.ui.addRoom
 
 import androidx.databinding.ObservableField
-import com.example.chatapp.base.BaseViewModel
-import com.example.chatapp.database.FireStoreUtils
-import com.example.chatapp.database.models.Room
+import androidx.lifecycle.viewModelScope
+import com.example.chatapp.ui.base.BaseViewModel
+import com.example.chatapp.data.datasources.models.Room
+import com.example.chatapp.domain.usecases.rooms.SetRoomInteractor
 import com.example.chatapp.ui.constants.UserProvider
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class AddRoomViewModel: BaseViewModel<AddRoomNavigator>() {
+@HiltViewModel
+class AddRoomViewModel @Inject constructor(
+    private val setRoomInteractor : SetRoomInteractor ): BaseViewModel<AddRoomNavigator>() {
+
     var roomName = ObservableField<String>()
     var roomDescription = ObservableField<String>()
     var roomNameError = ObservableField<String?>()
@@ -30,20 +37,19 @@ class AddRoomViewModel: BaseViewModel<AddRoomNavigator>() {
     }
 
     private fun insertRoomToDatebase(room:Room){
-        navigator?.showLoading("Loading...")
-        FireStoreUtils()
-            .insertRoomToFireStore(room)
-            ?.addOnCompleteListener { task->
+        viewModelScope.launch {
+            navigator?.showLoading("Loading...")
+            setRoomInteractor(room)?.addOnCompleteListener { task->
                 navigator?.hideLoading()
                 if(task.isSuccessful){
                     // massege with firebase
                     navigator?.showMessage("Room Created Successfully.","Show Rooms")
-                }else{
+                } else {
                     // message error
                     navigator?.showMessage(task.exception?.localizedMessage!!,"")
                 }
-
             }
+        }
     }
 
     private fun validateForm(): Boolean {

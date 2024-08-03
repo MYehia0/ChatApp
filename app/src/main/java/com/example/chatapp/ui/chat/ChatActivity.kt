@@ -6,10 +6,12 @@ import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.chatapp.R
-import com.example.chatapp.base.BaseActivity
-import com.example.chatapp.database.models.Room
+import com.example.chatapp.data.datasources.models.Room
+import com.example.chatapp.ui.base.BaseActivity
 import com.example.chatapp.databinding.ActivityChatBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ChatActivity : BaseActivity<ActivityChatBinding, ChatViewModel>(), ChatNavigator {
 
     private lateinit var adapter: MessageAdapter
@@ -27,14 +29,16 @@ class ChatActivity : BaseActivity<ActivityChatBinding, ChatViewModel>(), ChatNav
 
     private fun subscribeToLiveData(){
         viewModel.messagesList.observe(this){
-            adapter.changeAllData(it)
+            if (it != null) {
+                adapter.changeAllData(it)
+            }
             binding.content.recyclerMessages.scrollToPosition(adapter.itemCount - 1 )
         }
     }
 
     private fun initializeRoom(){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            viewModel.room = intent.getParcelableExtra("ROOM",Room::class.java)!!
+            viewModel.room = intent.getParcelableExtra("ROOM", Room::class.java)!!
         } else {
             viewModel.room = intent.getParcelableExtra("ROOM")!!
         }

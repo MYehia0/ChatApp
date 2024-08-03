@@ -6,7 +6,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.chatapp.R
-import com.example.chatapp.database.models.Message
+import com.example.chatapp.data.datasources.models.Message
 import com.example.chatapp.databinding.ItemMessageBinding
 
 class MessageAdapter(var items:MutableList<Message>?):Adapter<MessageAdapter.MessageViewHolder>() {

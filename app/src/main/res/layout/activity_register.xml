@@ -7,7 +7,7 @@
     <data>
         <variable
             name="base"
-            type="com.example.chatapp.base.BaseViewModel" />
+            type="com.example.chatapp.ui.base.BaseViewModel" />
         <variable
             name="vm"
             type="com.example.chatapp.ui.register.RegisterViewModel" />

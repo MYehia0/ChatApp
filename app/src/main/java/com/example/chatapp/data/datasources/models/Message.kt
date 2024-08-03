@@ -1,4 +1,4 @@
-package com.example.chatapp.database.models
+package com.example.chatapp.data.datasources.models
 
 import com.example.chatapp.ui.constants.UserProvider
 import com.google.firebase.Timestamp

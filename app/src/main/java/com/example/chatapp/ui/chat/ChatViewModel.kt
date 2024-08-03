@@ -1,21 +1,28 @@
 package com.example.chatapp.ui.chat
 
-import android.util.Log
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
-import com.example.chatapp.base.BaseViewModel
-import com.example.chatapp.database.FireStoreUtils
-import com.example.chatapp.database.models.Message
-import com.example.chatapp.database.models.Room
+import androidx.lifecycle.viewModelScope
+import com.example.chatapp.ui.base.BaseViewModel
+import com.example.chatapp.data.datasources.models.Message
+import com.example.chatapp.data.datasources.models.Room
+import com.example.chatapp.domain.usecases.messages.GetMessageInteractor
+import com.example.chatapp.domain.usecases.messages.SetMessageInteractor
 import com.example.chatapp.ui.constants.UserProvider
 import com.google.firebase.Timestamp
-import com.google.firebase.firestore.EventListener
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class ChatViewModel: BaseViewModel<ChatNavigator>() {
-    var room:Room? = null
+@HiltViewModel
+class ChatViewModel @Inject constructor(
+    private val getMessageInteractor : GetMessageInteractor,
+    private val setMessageInteractor : SetMessageInteractor): BaseViewModel<ChatNavigator>(){
+
+    var room: Room? = null
     val messageField = ObservableField<String>()
-    val messagesList = MutableLiveData<MutableList<Message>>()
-    var mList = mutableListOf<Message> ()
+    val messagesList = MutableLiveData<MutableList<Message>?>()
+    var mList = mutableListOf<Message>()
 
     fun sendMessage(){
         if (messageField.get().isNullOrBlank())
@@ -27,44 +34,30 @@ class ChatViewModel: BaseViewModel<ChatNavigator>() {
             senderName = UserProvider.user?.uName,
             dateTime = Timestamp.now(),
         )
-        FireStoreUtils()
-            .sendMessage(message)
-            ?.addOnCompleteListener {
+        viewModelScope.launch {
+            setMessageInteractor(message)?.addOnCompleteListener {
                 if (it.isSuccessful){
                     messageField.set("")
-                    return@addOnCompleteListener
+                } else {
+                    navigator?.tryAgain("Failed send your message")
                 }
-                navigator?.tryAgain("Failed send your message")
             }
+        }
     }
 
-    fun getAllMessage(){
-//        navigator?.showLoading("Loading...")
-        Log.e("getAllMessage","getAllMessage")
-        FireStoreUtils()
-            .getAllMessage(room?.rID)
-            ?.addSnapshotListener(
-                EventListener { value, error ->
-//                    navigator?.hideLoading()
-                    if (error != null) {
-                        // message error
-                        error.localizedMessage?.let { navigator?.showMessage(it, "") }
-                        return@EventListener
-                    }
-                    value?.documentChanges?.forEach {
-                        val message = it.document.toObject(Message::class.java)
-                        Log.e("getAllMessage",message.content.toString())
-                        mList.add(message)
-                        messagesList.value = mList
-                        Log.e("mList",mList.toString())
-                        Log.e("messagesList",messagesList.value.toString())
-                    }
-//                        .also {
-//                        messagesList.value = mList
-//                        Log.e("messagesList",messagesList.value.toString())
-//                    }
+    fun getAllMessage() {
+        viewModelScope.launch {
+            room?.rID?.let { getMessageInteractor(it) }!!.addSnapshotListener{ value, error ->
+                if (error != null) {
+                    // message error
+                    navigator?.showMessage(error.localizedMessage!!, "")
                 }
-            )
+                value?.documentChanges?.forEach {
+                    val message = it.document.toObject(Message::class.java)
+                    mList.add(message)
+                    messagesList.value = mList
+                }
+            }
+        }
     }
-
 }
