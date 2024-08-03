@@ -4,12 +4,14 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
 import com.example.chatapp.R
+import com.example.chatapp.data.datasources.models.Room
 import com.example.chatapp.databinding.ActivityHomeBinding
-import com.example.chatapp.base.BaseActivity
-import com.example.chatapp.database.models.Room
+import com.example.chatapp.ui.base.BaseActivity
 import com.example.chatapp.ui.addRoom.AddRoomActivity
 import com.example.chatapp.ui.chat.ChatActivity
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class HomeActivity : BaseActivity<ActivityHomeBinding, HomeViewModel>(),HomeNavigator {
     lateinit var adapter: RoomAdapter
     override fun onCreate(savedInstanceState: Bundle?) {

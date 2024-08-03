@@ -1,15 +1,20 @@
 package com.example.chatapp.ui.register
 
-import android.database.Observable
-import androidx.core.text.trimmedLength
 import androidx.databinding.ObservableField
-import androidx.lifecycle.ViewModel
-import com.example.chatapp.base.BaseViewModel
-import com.example.chatapp.database.FireStoreUtils
-import com.example.chatapp.database.models.User
-import com.google.firebase.auth.FirebaseAuth
+import androidx.lifecycle.viewModelScope
+import com.example.chatapp.ui.base.BaseViewModel
+import com.example.chatapp.data.datasources.models.User
+import com.example.chatapp.domain.usecases.users.CreateUserWithEmailAndPasswordInteractor
+import com.example.chatapp.domain.usecases.users.SetUserInteractor
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class RegisterViewModel: BaseViewModel<RegisterNavigator>() {
+@HiltViewModel
+class RegisterViewModel @Inject constructor(
+    private val setUserInteractor : SetUserInteractor,
+    private val createUserWithEmailAndPasswordInteractor : CreateUserWithEmailAndPasswordInteractor): BaseViewModel<RegisterNavigator>() {
+
     var userName = ObservableField<String>()
     var email = ObservableField<String>()
     var password = ObservableField<String>()
@@ -19,28 +24,7 @@ class RegisterViewModel: BaseViewModel<RegisterNavigator>() {
     var passwordError = ObservableField<String?>()
     var passwordConformError = ObservableField<String?>()
 
-    val auth = FirebaseAuth.getInstance()
     private var isValid:Boolean = true
-
-    fun register(){
-        if(!validateForm()){
-            return
-        }
-        navigator?.showLoading("Loading...")
-        auth.createUserWithEmailAndPassword(email.get()!!,password.get()!!)
-            .addOnCompleteListener {task->
-                if(task.isSuccessful){
-                    // massege with firebase
-                    insertUserToDatebase(task.result.user?.uid)
-                }
-                else{
-                    // message error
-                    navigator?.hideLoading()
-                    navigator?.showMessage(task.exception?.localizedMessage!!,"")
-                }
-            }
-
-    }
     private fun validateForm(): Boolean {
         if(userName.get()?.trim().isNullOrBlank()){
             isValid = false
@@ -84,25 +68,41 @@ class RegisterViewModel: BaseViewModel<RegisterNavigator>() {
         }
         return isValid
     }
-    fun insertUserToDatebase(userID:String?){
+    fun register(){
+        if(!validateForm()){
+            return
+        }
+        navigator?.showLoading("Loading...")
+        viewModelScope.launch {
+            createUserWithEmailAndPasswordInteractor(email.get()!!, password.get()!!)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        // massege with firebase
+                        launch {
+                            insertUserToDatebase(task.result.user?.uid)
+                        }
+                    } else {
+                        // message error
+                        navigator?.hideLoading()
+                        navigator?.showMessage(task.exception?.localizedMessage!!, "")
+                    }
+                }
+        }
+
+    }
+    suspend fun insertUserToDatebase(userID:String?){
         val user = User(
             uid = userID,
             uName = userName.get(),
             uEmail = email.get()
         )
-        FireStoreUtils()
-            .insertUserToFireStore(user)
-            .addOnCompleteListener { task->
-                navigator?.hideLoading()
-                if(task.isSuccessful){
-                    navigator?.showMessage("Successful Registration.","Login")
-//                    onBack()
-                }else{
-                    navigator?.showMessage(task.exception?.localizedMessage!!,"")
-                }
-
+        setUserInteractor(user).addOnCompleteListener { task->
+            navigator?.hideLoading()
+            if(task.isSuccessful){
+                navigator?.showMessage("Successful Registration.","Login")
+            } else {
+                navigator?.showMessage(task.exception?.localizedMessage!!,"")
             }
+        }
     }
-
-
 }

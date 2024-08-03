@@ -1,12 +1,18 @@
 package com.example.chatapp.ui.home
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
-import com.example.chatapp.base.BaseViewModel
-import com.example.chatapp.database.FireStoreUtils
-import com.example.chatapp.database.models.Room
+import androidx.lifecycle.viewModelScope
+import com.example.chatapp.ui.base.BaseViewModel
+import com.example.chatapp.data.datasources.models.Room
+import com.example.chatapp.domain.usecases.rooms.GetRoomInteractor
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class HomeViewModel: BaseViewModel<HomeNavigator>() {
+@HiltViewModel
+class HomeViewModel @Inject constructor(
+    private val getRoomInteractor : GetRoomInteractor): BaseViewModel<HomeNavigator>() {
+
     val roomsList = MutableLiveData<List<Room>>()
 
     fun addRoomFloating(){
@@ -14,10 +20,9 @@ class HomeViewModel: BaseViewModel<HomeNavigator>() {
     }
 
     fun getAllRooms(){
-        navigator?.showLoading("Loading...")
-        FireStoreUtils()
-            .getRoomFromFireStore()
-            .addOnCompleteListener { task->
+        viewModelScope.launch {
+            navigator?.showLoading("Loading...")
+            getRoomInteractor().addOnCompleteListener { task->
                 navigator?.hideLoading()
                 if(task.isSuccessful){
                     val rooms = mutableListOf<Room>()
@@ -37,5 +42,6 @@ class HomeViewModel: BaseViewModel<HomeNavigator>() {
                     navigator?.showMessage(task.exception?.localizedMessage!!,"")
                 }
             }
+        }
     }
 }

@@ -6,7 +6,7 @@
     <data>
         <variable
             name="item"
-            type="com.example.chatapp.database.models.Room" />
+            type="com.example.chatapp.data.datasources.models.Room" />
     </data>
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"

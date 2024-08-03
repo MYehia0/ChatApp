@@ -1,15 +1,15 @@
 package com.example.chatapp.ui.addRoom
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.Adapter
 import android.widget.AdapterView
 import androidx.lifecycle.ViewModelProvider
 import com.example.chatapp.R
-import com.example.chatapp.base.BaseActivity
+import com.example.chatapp.ui.base.BaseActivity
 import com.example.chatapp.databinding.ActivityAddRoomBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class AddRoomActivity : BaseActivity<ActivityAddRoomBinding, AddRoomViewModel>(),AddRoomNavigator {
     lateinit var adapter: RoomCategoriesAdapter
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -1,4 +1,4 @@
-package com.example.chatapp.database.models
+package com.example.chatapp.data.datasources.models
 
 import android.os.Parcelable
 import com.example.chatapp.ui.addRoom.RoomCategories

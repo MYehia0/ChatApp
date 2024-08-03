@@ -1,16 +1,13 @@
 package com.example.chatapp.ui.register
 
-import android.app.AlertDialog
-import android.app.ProgressDialog
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.activity.viewModels
-import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.example.chatapp.R
 import com.example.chatapp.databinding.ActivityRegisterBinding
-import com.example.chatapp.base.BaseActivity
+import com.example.chatapp.ui.base.BaseActivity
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class RegisterActivity : BaseActivity<ActivityRegisterBinding, RegisterViewModel>(),RegisterNavigator {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

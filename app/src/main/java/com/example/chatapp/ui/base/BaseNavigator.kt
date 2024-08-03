@@ -1,4 +1,4 @@
-package com.example.chatapp.base
+package com.example.chatapp.ui.base
 
 interface BaseNavigator {
     fun showLoading(message:String)

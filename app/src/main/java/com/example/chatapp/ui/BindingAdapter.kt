@@ -2,12 +2,10 @@ package com.example.chatapp.ui
 
 import android.graphics.Color
 import android.view.View
-import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.databinding.BindingAdapter
-import com.example.chatapp.R
 import com.example.chatapp.R.drawable.receive_message_background
 import com.example.chatapp.R.drawable.sent_message_background
 import com.google.android.material.textfield.TextInputLayout

@@ -1,4 +1,4 @@
-package com.example.chatapp.database.models
+package com.example.chatapp.data.datasources.models
 
 data class User(
     val uid:String?=null,

@@ -6,7 +6,7 @@
     <data>
         <variable
             name="item"
-            type="com.example.chatapp.database.models.Message" />
+            type="com.example.chatapp.data.datasources.models.Message" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

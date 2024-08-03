@@ -1,6 +1,6 @@
 package com.example.chatapp.ui.register
 
-import com.example.chatapp.base.BaseNavigator
+import com.example.chatapp.ui.base.BaseNavigator
 
 interface RegisterNavigator: BaseNavigator {
 

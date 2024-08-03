@@ -7,7 +7,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.chatapp.R
-import com.example.chatapp.database.models.Room
+import com.example.chatapp.data.datasources.models.Room
 import com.example.chatapp.databinding.ItemRoomBinding
 
 class RoomAdapter(var items:List<Room>?):Adapter<RoomAdapter.RoomViewHolder>() {
