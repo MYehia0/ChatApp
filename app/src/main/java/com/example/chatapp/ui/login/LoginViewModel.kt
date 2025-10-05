@@ -1,10 +1,13 @@
 package com.example.chatapp.ui.login
 
+import android.util.Log
 import androidx.databinding.ObservableField
 import androidx.lifecycle.viewModelScope
+import com.example.chatapp.data.datasources.models.User
 import com.example.chatapp.ui.base.BaseViewModel
 import com.example.chatapp.domain.usecases.users.GetUserInteractor
 import com.example.chatapp.domain.usecases.users.SignInWithEmailAndPasswordInteractor
+import com.example.chatapp.ui.constants.UserProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -52,7 +55,7 @@ class LoginViewModel @Inject constructor(
                 .addOnCompleteListener {task->
                     if(task.isSuccessful){
                         // massege with firebase
-                        launch {
+                        viewModelScope.launch {
                             getUserFromDatabase(task.result.user)
                         }
                     }
@@ -70,10 +73,14 @@ class LoginViewModel @Inject constructor(
             getUserInteractor(it).addOnCompleteListener { task->
                 navigator?.hideLoading()
                 if (task.isSuccessful){
-    //                    val userM = task.result.toObject(User::class.java)
-    //                    UserProvider.user = userM
-    //                    Log.e("userlogin",userM?.uEmail.toString())
-    //                    Log.e("userloginP",UserProvider.user?.uEmail.toString())
+                    val userM = task.result.toObject(User::class.java)
+                    UserProvider.user = User(
+                        uName = userM?.uName,
+                        uEmail = userM?.uEmail,
+                        uid = userM?.uid,
+                        )
+                    Log.e("userlogin",userM?.uEmail.toString())
+                    Log.e("userloginP",UserProvider.user?.uEmail.toString())
                     navigator?.goToHome()
                 } else {
                     // message error

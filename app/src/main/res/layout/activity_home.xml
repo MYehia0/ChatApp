@@ -43,6 +43,19 @@
             android:onClick="@{() -> vm.addRoomFloating() }"
             />
 
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/logout_floating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|start"
+            android:layout_margin="20dp"
+            app:maxImageSize="35dp"
+            app:fabCustomSize="70dp"
+            android:src="@drawable/ic_logout"
+            android:backgroundTint="@color/red"
+            android:onClick="@{() -> vm.logout() }"
+            />
+
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

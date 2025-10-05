@@ -9,6 +9,7 @@ import com.example.chatapp.databinding.ActivityHomeBinding
 import com.example.chatapp.ui.base.BaseActivity
 import com.example.chatapp.ui.addRoom.AddRoomActivity
 import com.example.chatapp.ui.chat.ChatActivity
+import com.example.chatapp.ui.login.LoginActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -59,9 +60,12 @@ class HomeActivity : BaseActivity<ActivityHomeBinding, HomeViewModel>(),HomeNavi
     }
 
     override fun goToAddRoom() {
-        binding.addRoomFloating.setOnClickListener{
-            val intent = Intent(this, AddRoomActivity::class.java)
-            startActivity(intent)
-        }
+        val intent = Intent(this, AddRoomActivity::class.java)
+        startActivity(intent)
+    }
+
+    override fun logout() {
+        val intent = Intent(this, LoginActivity::class.java)
+        startActivity(intent)
     }
 }

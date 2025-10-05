@@ -4,7 +4,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.chatapp.ui.base.BaseViewModel
 import com.example.chatapp.data.datasources.models.Room
+import com.example.chatapp.data.datasources.models.User
 import com.example.chatapp.domain.usecases.rooms.GetRoomInteractor
+import com.example.chatapp.ui.constants.UserProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -17,6 +19,11 @@ class HomeViewModel @Inject constructor(
 
     fun addRoomFloating(){
         navigator?.goToAddRoom()
+    }
+
+    fun logout(){
+        UserProvider.user = User()
+        navigator?.logout()
     }
 
     fun getAllRooms(){

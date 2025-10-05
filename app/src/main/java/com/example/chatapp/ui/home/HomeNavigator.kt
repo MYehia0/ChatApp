@@ -4,4 +4,5 @@ import com.example.chatapp.ui.base.BaseNavigator
 
 interface HomeNavigator: BaseNavigator {
     fun goToAddRoom()
+    fun logout()
 }

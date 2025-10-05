@@ -1,5 +1,6 @@
 package com.example.chatapp.ui.register
 
+import android.util.Log
 import androidx.databinding.ObservableField
 import androidx.lifecycle.viewModelScope
 import com.example.chatapp.ui.base.BaseViewModel
@@ -7,7 +8,9 @@ import com.example.chatapp.data.datasources.models.User
 import com.example.chatapp.domain.usecases.users.CreateUserWithEmailAndPasswordInteractor
 import com.example.chatapp.domain.usecases.users.SetUserInteractor
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -78,7 +81,7 @@ class RegisterViewModel @Inject constructor(
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         // massege with firebase
-                        launch {
+                        viewModelScope.launch {
                             insertUserToDatebase(task.result.user?.uid)
                         }
                     } else {
@@ -98,7 +101,7 @@ class RegisterViewModel @Inject constructor(
         )
         setUserInteractor(user).addOnCompleteListener { task->
             navigator?.hideLoading()
-            if(task.isSuccessful){
+            if(task.isSuccessful) {
                 navigator?.showMessage("Successful Registration.","Login")
             } else {
                 navigator?.showMessage(task.exception?.localizedMessage!!,"")
